@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extension Dialog</title>
+  <script>
+    // The webview runs in a separate environment from the extension. It talks to
+    // the host through a platform-specific message handler — support both.
+    const isWebKit = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.live;
+    const isWebView2 = window.chrome && window.chrome.webview;
+
+    function sendMessage(message) {
+      if (isWebKit) window.webkit.messageHandlers.live.postMessage(message);
+      else if (isWebView2) window.chrome.webview.postMessage(message);
+    }
+
+    // Return a result and close the dialog. The single string in `params`
+    // becomes the resolved value of `context.ui.showModalDialog(...)`.
+    function closeWithResult(result) {
+      sendMessage({ method: "close_and_send", params: [JSON.stringify(result)] });
+    }
+
+    function submit() {
+      closeWithResult({ name: document.getElementById("name").value });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("name").focus();
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") submit();
+        if (e.key === "Escape") closeWithResult({ name: null }); // signal cancel
+      });
+    });
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    *:not(dialog) { margin: 0; }
+    input, button { font: inherit; }
+
+    /* Live dark theme tokens */
+    :root {
+      --p-live-ui-bg: hsl(0, 0%, 21%);
+      --p-live-control-bg: hsl(0, 0%, 16%);
+      --p-live-input-bg: hsl(0, 0%, 12%);
+      --p-live-text-primary: hsl(0, 0%, 71%);
+      --p-live-control-border: hsl(0, 0%, 7%);
+      --p-live-text-secondary: hsl(0, 0%, 41%);
+      --p-live-accent-primary: hsl(31, 100%, 67%);
+      --p-live-control-text--enabled: hsl(0, 0%, 7%);
+
+      --c-bg--0500: var(--p-live-ui-bg);
+      --c-text-primary: var(--p-live-text-primary);
+      --c-text-secondary: var(--p-live-text-secondary);
+      --c-control-bg--400: hsl(0, 0%, 14%);
+      --c-control-bg--500: var(--p-live-control-bg);
+      --c-control-border: var(--p-live-control-border);
+      --c-control-outline: var(--c-text-secondary);
+      --c-control-on-foreground: var(--p-live-control-text--enabled);
+      --c-input-bg-500: var(--p-live-input-bg);
+      --c-highlight--primary: var(--p-live-accent-primary);
+    }
+
+    html {
+      background-color: var(--c-bg--0500);
+      color: var(--c-text-primary);
+      font-family: "AbletonSansSmall", sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      -webkit-font-smoothing: antialiased;
+      height: 100%;
+    }
+
+    body {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5em;
+    }
+
+    .form { display: flex; flex-direction: column; gap: 0.5em; width: 100%; }
+
+    .label { display: flex; flex-direction: column; gap: 0.25em; cursor: pointer; }
+
+    .input:not([type="range"]) {
+      font-size: 1rem;
+      line-height: 1.5;
+      background-color: var(--c-input-bg-500);
+      color: var(--c-text-primary);
+      border: 1px solid var(--c-control-border);
+      height: 20px;
+      padding: 0 0.33em;
+      width: 100%;
+    }
+    .input::placeholder { color: var(--c-text-secondary); }
+    .input:focus { outline: 2px solid var(--c-control-outline); }
+
+    .buttons { display: flex; gap: 0.5em; justify-content: flex-end; }
+
+    .button {
+      font-size: 1rem;
+      line-height: 1;
+      background-color: var(--c-control-bg--500);
+      color: var(--c-text-primary);
+      border: 1px solid var(--c-control-border);
+      height: 20px;
+      padding: 0 1em;
+      border-radius: 1em;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .button:hover { background-color: var(--c-control-bg--400); }
+    .button:active {
+      color: var(--c-control-on-foreground);
+      background-color: var(--c-highlight--primary);
+    }
+    .button:focus { outline: 2px solid var(--c-control-outline); }
+  </style>
+</head>
+
+<body>
+  <div class="form">
+    <label class="label" for="name">Rename your clip</label>
+    <input class="input" type="text" id="name" placeholder="New clip name…" />
+    <div class="buttons">
+      <button class="button" onclick='closeWithResult({ name: null })'>Cancel</button>
+      <button class="button" onclick="submit()">OK</button>
+    </div>
+  </div>
+</body>
+
+</html>

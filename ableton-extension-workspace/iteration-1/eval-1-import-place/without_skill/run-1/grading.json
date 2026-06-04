@@ -1,0 +1,49 @@
+{
+  "expectations": [
+    {
+      "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+      "passed": false,
+      "evidence": "no match for /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/; matched /\\bactivate\\b/: 'activate'"
+    },
+    {
+      "text": "Registers context-menu action scoped to \"ClipSlot\"",
+      "passed": false,
+      "evidence": "no match for /registerContextMenuAction/; no match for /[\"\\']ClipSlot[\"\\']/"
+    },
+    {
+      "text": "Resolves the clip slot with getObjectFromHandle(..., ClipSlot)",
+      "passed": false,
+      "evidence": "no match for /getObjectFromHandle/; matched /ClipSlot/: 'ClipSlot'"
+    },
+    {
+      "text": "Writes the download into context.environment.tempDirectory (sandbox), not an arbitrary path",
+      "passed": false,
+      "evidence": "no match for /environment\\.(temp|storage)Directory/"
+    },
+    {
+      "text": "Imports via context.resources.importIntoProject(...) before creating the clip",
+      "passed": false,
+      "evidence": "no match for /importIntoProject/"
+    },
+    {
+      "text": "Creates the clip with clipSlot.createAudioClip({ filePath, isWarped: false })",
+      "passed": false,
+      "evidence": "no match for /createAudioClip/; no match for /isWarped/"
+    },
+    {
+      "text": "Avoids hallucinated FS / clip API (no context.filesystem, importAudioFile, or .addAction)",
+      "passed": false,
+      "evidence": "found hallucinated API: ['\\\\.filesystem\\\\b', 'importAudioFile', '\\\\.addAction\\\\b']"
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 7,
+    "total": 7,
+    "pass_rate": 0.0
+  },
+  "timing": {
+    "total_duration_seconds": 22.6,
+    "total_tokens": 11766
+  }
+}

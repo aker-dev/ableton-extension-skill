@@ -1,0 +1,44 @@
+{
+  "expectations": [
+    {
+      "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+      "passed": false,
+      "evidence": "no match for /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/; no match for /\\bactivate\\b/"
+    },
+    {
+      "text": "Registers context-menu action scoped to \"MidiTrack.ArrangementSelection\"",
+      "passed": false,
+      "evidence": "no match for /registerContextMenuAction/; no match for /MidiTrack\\.ArrangementSelection/"
+    },
+    {
+      "text": "Reads ArrangementSelection fields (time_selection_start/end, selected_lanes)",
+      "passed": false,
+      "evidence": "no match for /time_selection_start/; no match for /selected_lanes/"
+    },
+    {
+      "text": "Resolves lanes with getObjectFromHandle and narrows with instanceof",
+      "passed": false,
+      "evidence": "no match for /getObjectFromHandle/; no match for /instanceof/"
+    },
+    {
+      "text": "Creates clips with positional createMidiClip(startTime, duration) \u2014 not an object arg",
+      "passed": false,
+      "evidence": "matched /createMidiClip/: 'createMidiClip'; found hallucinated API: ['createMidiClip\\\\(\\\\s*\\\\{']"
+    },
+    {
+      "text": "Single undo step via withinTransaction(() => Promise.all(...)) \u2014 no beginUndoStep/manual undo",
+      "passed": false,
+      "evidence": "no match for /withinTransaction/; no match for /Promise\\.all/; found hallucinated API: ['beginUndoStep', 'endUndoStep']"
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 6,
+    "total": 6,
+    "pass_rate": 0.0
+  },
+  "timing": {
+    "total_duration_seconds": 38.2,
+    "total_tokens": 11824
+  }
+}

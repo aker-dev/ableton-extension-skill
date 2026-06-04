@@ -1,0 +1,18 @@
+# OS
+.DS_Store
+
+# Node / build artifacts (examples)
+node_modules/
+dist/
+.dev/
+
+# Secrets / local config
+.env
+
+# NEVER commit Ableton's SDK/CLI tarballs (private beta, not redistributable)
+*.tgz
+
+# Local scratch: raw manual test projects (published, cleaned, under examples/)
+/tests/
+
+# Keep: ableton-extension.skill is intentionally tracked (do not ignore *.skill)

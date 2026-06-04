@@ -1,0 +1,51 @@
+{
+  "skill_name": "ableton-extension",
+  "evals": [
+    {
+      "id": 0,
+      "name": "warp-cycle",
+      "prompt": "I'm working on an Ableton Live extension (TypeScript, using @ableton-extensions/sdk). Add a feature: when I right-click an audio clip in Live, there should be a menu item \"Cycle Warp Mode\" that switches the clip's warp mode to the next available mode each time I click it, wrapping back to the first after the last. Write me the complete src/extension.ts.",
+      "expected_output": "A complete src/extension.ts that exports activate, calls initialize(activation, \"1.0.0\"), registers a command + a context-menu action scoped to AudioClip, resolves the handle to an AudioClip (or Clip + instanceof), and cycles through warp modes using an explicit ordered list of WarpMode values (NOT modulo arithmetic on the raw enum, because WarpMode values are non-contiguous — 5 is skipped).",
+      "files": [],
+      "expectations": [
+        "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+        "Registers the item via context.ui.registerContextMenuAction scoped to \"AudioClip\"",
+        "Resolves the clicked clip with getObjectFromHandle",
+        "Sets warp mode via the warpMode property (assignment, not a .set() method)",
+        "Cycles via an explicit ordered WarpMode array (no modulo on the raw non-contiguous enum)",
+        "Avoids a hallucinated class API (no extends Extension / onLoad / contextMenu.register / createExtension)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "import-place",
+      "prompt": "Building an Ableton Live extension with @ableton-extensions/sdk. I want a right-click action on a Session-view clip slot that downloads a WAV from a hardcoded URL (https://example.com/loop.wav) and drops it into that clip slot as an unwarped audio clip. Give me the full src/extension.ts. It needs to respect the extension filesystem rules.",
+      "expected_output": "A complete src/extension.ts: context-menu action on ClipSlot; resolves the ClipSlot handle; fetches the URL; writes the bytes into context.environment.tempDirectory (NOT an arbitrary path like Downloads/Desktop); calls context.resources.importIntoProject(tempPath) and uses the RETURNED path; calls clipSlot.createAudioClip with the imported path and isWarped:false. Should not touch the filesystem outside storage/temp directories.",
+      "files": [],
+      "expectations": [
+        "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+        "Registers context-menu action scoped to \"ClipSlot\"",
+        "Resolves the clip slot with getObjectFromHandle(..., ClipSlot)",
+        "Writes the download into context.environment.tempDirectory (sandbox), not an arbitrary path",
+        "Imports via context.resources.importIntoProject(...) before creating the clip",
+        "Creates the clip with clipSlot.createAudioClip({ filePath, isWarped: false })",
+        "Avoids hallucinated FS / clip API (no context.filesystem, importAudioFile, or .addAction)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "selection-undo",
+      "prompt": "In my Ableton Live extension (@ableton-extensions/sdk), I want this: the user makes a time selection across one or more MIDI tracks in the Arrangement, right-clicks, and picks \"Fill With Clips\". That should create an empty MIDI clip on every selected MIDI track/lane spanning exactly the selected time range — and the whole thing must be a single undo step. Write the complete src/extension.ts.",
+      "expected_output": "A complete src/extension.ts: registers a context-menu action on MidiTrack.ArrangementSelection; the command receives an ArrangementSelection (selected_lanes, time_selection_start/end in beats); resolves lanes via a base class and narrows with instanceof to MIDI tracks/lanes; creates clips with createMidiClip(startTime, duration) where duration = end - start; groups the async creations into one undo step by returning Promise.all(...) from context.withinTransaction(...) and awaiting it (does NOT await inside the transaction callback).",
+      "files": [],
+      "expectations": [
+        "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+        "Registers context-menu action scoped to \"MidiTrack.ArrangementSelection\"",
+        "Reads ArrangementSelection fields (time_selection_start/end, selected_lanes)",
+        "Resolves lanes with getObjectFromHandle and narrows with instanceof",
+        "Creates clips with positional createMidiClip(startTime, duration) — not an object arg",
+        "Single undo step via withinTransaction(() => Promise.all(...)) — no beginUndoStep/manual undo"
+      ]
+    }
+  ]
+}

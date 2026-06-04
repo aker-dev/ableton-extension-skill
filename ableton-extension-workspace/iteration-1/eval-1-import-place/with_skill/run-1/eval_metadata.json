@@ -1,0 +1,14 @@
+{
+  "eval_id": 1,
+  "eval_name": "import-place",
+  "prompt": "Building an Ableton Live extension with @ableton-extensions/sdk. I want a right-click action on a Session-view clip slot that downloads a WAV from a hardcoded URL (https://example.com/loop.wav) and drops it into that clip slot as an unwarped audio clip. Give me the full src/extension.ts. It needs to respect the extension filesystem rules.",
+  "assertions": [
+    "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+    "Registers context-menu action scoped to \"ClipSlot\"",
+    "Resolves the clip slot with getObjectFromHandle(..., ClipSlot)",
+    "Writes the download into context.environment.tempDirectory (sandbox), not an arbitrary path",
+    "Imports via context.resources.importIntoProject(...) before creating the clip",
+    "Creates the clip with clipSlot.createAudioClip({ filePath, isWarped: false })",
+    "Avoids hallucinated FS / clip API (no context.filesystem, importAudioFile, or .addAction)"
+  ]
+}

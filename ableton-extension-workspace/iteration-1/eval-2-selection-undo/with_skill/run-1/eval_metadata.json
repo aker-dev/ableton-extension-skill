@@ -1,0 +1,13 @@
+{
+  "eval_id": 2,
+  "eval_name": "selection-undo",
+  "prompt": "In my Ableton Live extension (@ableton-extensions/sdk), I want this: the user makes a time selection across one or more MIDI tracks in the Arrangement, right-clicks, and picks \"Fill With Clips\". That should create an empty MIDI clip on every selected MIDI track/lane spanning exactly the selected time range \u2014 and the whole thing must be a single undo step. Write the complete src/extension.ts.",
+  "assertions": [
+    "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+    "Registers context-menu action scoped to \"MidiTrack.ArrangementSelection\"",
+    "Reads ArrangementSelection fields (time_selection_start/end, selected_lanes)",
+    "Resolves lanes with getObjectFromHandle and narrows with instanceof",
+    "Creates clips with positional createMidiClip(startTime, duration) \u2014 not an object arg",
+    "Single undo step via withinTransaction(() => Promise.all(...)) \u2014 no beginUndoStep/manual undo"
+  ]
+}

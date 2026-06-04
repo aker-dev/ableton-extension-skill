@@ -1,0 +1,44 @@
+{
+  "expectations": [
+    {
+      "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+      "passed": true,
+      "evidence": "matched /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/: 'initialize(activation, \"1.0.0\"'; matched /\\bactivate\\b/: 'activate'"
+    },
+    {
+      "text": "Registers context-menu action scoped to \"MidiTrack.ArrangementSelection\"",
+      "passed": true,
+      "evidence": "matched /registerContextMenuAction/: 'registerContextMenuAction'; matched /MidiTrack\\.ArrangementSelection/: 'MidiTrack.ArrangementSelection'"
+    },
+    {
+      "text": "Reads ArrangementSelection fields (time_selection_start/end, selected_lanes)",
+      "passed": true,
+      "evidence": "matched /time_selection_start/: 'time_selection_start'; matched /selected_lanes/: 'selected_lanes'"
+    },
+    {
+      "text": "Resolves lanes with getObjectFromHandle and narrows with instanceof",
+      "passed": true,
+      "evidence": "matched /getObjectFromHandle/: 'getObjectFromHandle'; matched /instanceof/: 'instanceof'"
+    },
+    {
+      "text": "Creates clips with positional createMidiClip(startTime, duration) \u2014 not an object arg",
+      "passed": true,
+      "evidence": "matched /createMidiClip/: 'createMidiClip'; none of ['createMidiClip\\\\(\\\\s*\\\\{'] present"
+    },
+    {
+      "text": "Single undo step via withinTransaction(() => Promise.all(...)) \u2014 no beginUndoStep/manual undo",
+      "passed": true,
+      "evidence": "matched /withinTransaction/: 'withinTransaction'; matched /Promise\\.all/: 'Promise.all'; none of ['beginUndoStep', 'endUndoStep'] present"
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "timing": {
+    "total_duration_seconds": 47.6,
+    "total_tokens": 26277
+  }
+}

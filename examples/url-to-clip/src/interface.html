@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Import audio from URL</title>
+  <script>
+    const isWebKit = window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.live;
+    const isWebView2 = window.chrome && window.chrome.webview;
+
+    function sendMessage(message) {
+      if (isWebKit) window.webkit.messageHandlers.live.postMessage(message);
+      else if (isWebView2) window.chrome.webview.postMessage(message);
+    }
+    function closeWithResult(result) {
+      sendMessage({ method: "close_and_send", params: [JSON.stringify(result)] });
+    }
+    function submit() {
+      const value = document.getElementById("url").value.trim();
+      closeWithResult({ url: value || null });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("url").focus();
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") submit();
+        if (e.key === "Escape") closeWithResult({ url: null });
+      });
+    });
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    *:not(dialog) { margin: 0; }
+    input, button { font: inherit; }
+
+    :root {
+      --p-live-ui-bg: hsl(0, 0%, 21%);
+      --p-live-control-bg: hsl(0, 0%, 16%);
+      --p-live-input-bg: hsl(0, 0%, 12%);
+      --p-live-text-primary: hsl(0, 0%, 71%);
+      --p-live-control-border: hsl(0, 0%, 7%);
+      --p-live-text-secondary: hsl(0, 0%, 41%);
+      --p-live-accent-primary: hsl(31, 100%, 67%);
+    }
+
+    html {
+      background-color: var(--p-live-ui-bg);
+      color: var(--p-live-text-primary);
+      font-family: "AbletonSansSmall", sans-serif;
+      font-size: 11.5px;
+      font-weight: 500;
+      -webkit-font-smoothing: antialiased;
+      height: 100%;
+    }
+    body { height: 100%; display: flex; align-items: center; justify-content: center; padding: 1.5em; }
+    .form { display: flex; flex-direction: column; gap: 0.5em; width: 100%; }
+    .label { display: flex; flex-direction: column; gap: 0.25em; cursor: pointer; }
+
+    .input {
+      font-size: 1rem;
+      line-height: 1.5;
+      background-color: var(--p-live-input-bg);
+      color: var(--p-live-text-primary);
+      border: 1px solid var(--p-live-control-border);
+      height: 22px;
+      padding: 0 0.4em;
+      width: 100%;
+    }
+    .input::placeholder { color: var(--p-live-text-secondary); }
+    .input:focus { outline: 2px solid var(--p-live-text-secondary); }
+
+    .buttons { display: flex; gap: 0.5em; justify-content: flex-end; }
+    .button {
+      font-size: 1rem;
+      line-height: 1;
+      background-color: var(--p-live-control-bg);
+      color: var(--p-live-text-primary);
+      border: 1px solid var(--p-live-control-border);
+      height: 22px;
+      padding: 0 1em;
+      border-radius: 11px;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .button:hover { background-color: hsl(0, 0%, 14%); }
+    .button:active { color: hsl(0, 0%, 7%); background-color: var(--p-live-accent-primary); }
+    .button:focus { outline: 2px solid var(--p-live-text-secondary); }
+  </style>
+</head>
+
+<body>
+  <div class="form">
+    <label class="label" for="url">Audio / video URL</label>
+    <input class="input" type="text" id="url" placeholder="https://…  (YouTube, etc.)" />
+    <div class="buttons">
+      <button class="button" onclick='closeWithResult({ url: null })'>Cancel</button>
+      <button class="button" onclick="submit()">Import</button>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,370 @@
+{
+  "metadata": {
+    "skill_name": "ableton-extension",
+    "skill_path": "/Users/zak/Desktop/ableton-extension-skill/ableton-extension",
+    "executor_model": "claude-sonnet-4-6 (Agent model: sonnet)",
+    "analyzer_model": "claude-opus-4-8",
+    "timestamp": "2026-06-03T21:43:15Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 33.3,
+        "tokens": 21417,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+          "passed": true,
+          "evidence": "matched /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/: 'initialize(activation, \"1.0.0\"'; matched /\\bactivate\\b/: 'activate'"
+        },
+        {
+          "text": "Registers the item via context.ui.registerContextMenuAction scoped to \"AudioClip\"",
+          "passed": true,
+          "evidence": "matched /registerContextMenuAction/: 'registerContextMenuAction'; matched /[\"\\']AudioClip[\"\\']/: '\"AudioClip\"'"
+        },
+        {
+          "text": "Resolves the clicked clip with getObjectFromHandle",
+          "passed": true,
+          "evidence": "matched /getObjectFromHandle/: 'getObjectFromHandle'"
+        },
+        {
+          "text": "Sets warp mode via the warpMode property (assignment, not a .set() method)",
+          "passed": true,
+          "evidence": "matched /\\.warpMode\\s*=/: '.warpMode ='; none of ['\\\\.warpMode\\\\.set\\\\('] present"
+        },
+        {
+          "text": "Cycles via an explicit ordered WarpMode array (no modulo on the raw non-contiguous enum)",
+          "passed": true,
+          "evidence": "matched /(WarpMode\\.\\w+[\\s\\S]*){4,}/: 'WarpMode.Beats,      // 0\\n  WarpMode.Tones,      // 1\\n  WarpMode.Texture,    // '; none of ['warpMode\\\\s*\\\\+\\\\s*1\\\\s*\\\\)?\\\\s*%'] present"
+        },
+        {
+          "text": "Avoids a hallucinated class API (no extends Extension / onLoad / contextMenu.register / createExtension)",
+          "passed": true,
+          "evidence": "none of ['extends Extension', '\\\\bonLoad\\\\b', 'contextMenu\\\\.register', 'createExtension'] present"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 55.7,
+        "tokens": 26401,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+          "passed": true,
+          "evidence": "matched /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/: 'initialize(activation, \"1.0.0\"'; matched /\\bactivate\\b/: 'activate'"
+        },
+        {
+          "text": "Registers context-menu action scoped to \"ClipSlot\"",
+          "passed": true,
+          "evidence": "matched /registerContextMenuAction/: 'registerContextMenuAction'; matched /[\"\\']ClipSlot[\"\\']/: '\"ClipSlot\"'"
+        },
+        {
+          "text": "Resolves the clip slot with getObjectFromHandle(..., ClipSlot)",
+          "passed": true,
+          "evidence": "matched /getObjectFromHandle/: 'getObjectFromHandle'; matched /ClipSlot/: 'ClipSlot'"
+        },
+        {
+          "text": "Writes the download into context.environment.tempDirectory (sandbox), not an arbitrary path",
+          "passed": true,
+          "evidence": "matched /environment\\.(temp|storage)Directory/: 'environment.tempDirectory'"
+        },
+        {
+          "text": "Imports via context.resources.importIntoProject(...) before creating the clip",
+          "passed": true,
+          "evidence": "matched /importIntoProject/: 'importIntoProject'"
+        },
+        {
+          "text": "Creates the clip with clipSlot.createAudioClip({ filePath, isWarped: false })",
+          "passed": true,
+          "evidence": "matched /createAudioClip/: 'createAudioClip'; matched /isWarped/: 'isWarped'"
+        },
+        {
+          "text": "Avoids hallucinated FS / clip API (no context.filesystem, importAudioFile, or .addAction)",
+          "passed": true,
+          "evidence": "none of ['\\\\.filesystem\\\\b', 'importAudioFile', '\\\\.addAction\\\\b'] present"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 47.6,
+        "tokens": 26277,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+          "passed": true,
+          "evidence": "matched /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/: 'initialize(activation, \"1.0.0\"'; matched /\\bactivate\\b/: 'activate'"
+        },
+        {
+          "text": "Registers context-menu action scoped to \"MidiTrack.ArrangementSelection\"",
+          "passed": true,
+          "evidence": "matched /registerContextMenuAction/: 'registerContextMenuAction'; matched /MidiTrack\\.ArrangementSelection/: 'MidiTrack.ArrangementSelection'"
+        },
+        {
+          "text": "Reads ArrangementSelection fields (time_selection_start/end, selected_lanes)",
+          "passed": true,
+          "evidence": "matched /time_selection_start/: 'time_selection_start'; matched /selected_lanes/: 'selected_lanes'"
+        },
+        {
+          "text": "Resolves lanes with getObjectFromHandle and narrows with instanceof",
+          "passed": true,
+          "evidence": "matched /getObjectFromHandle/: 'getObjectFromHandle'; matched /instanceof/: 'instanceof'"
+        },
+        {
+          "text": "Creates clips with positional createMidiClip(startTime, duration) \u2014 not an object arg",
+          "passed": true,
+          "evidence": "matched /createMidiClip/: 'createMidiClip'; none of ['createMidiClip\\\\(\\\\s*\\\\{'] present"
+        },
+        {
+          "text": "Single undo step via withinTransaction(() => Promise.all(...)) \u2014 no beginUndoStep/manual undo",
+          "passed": true,
+          "evidence": "matched /withinTransaction/: 'withinTransaction'; matched /Promise\\.all/: 'Promise.all'; none of ['beginUndoStep', 'endUndoStep'] present"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.1667,
+        "passed": 1,
+        "failed": 5,
+        "total": 6,
+        "time_seconds": 16.9,
+        "tokens": 11830,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+          "passed": false,
+          "evidence": "no match for /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/; no match for /\\bactivate\\b/"
+        },
+        {
+          "text": "Registers the item via context.ui.registerContextMenuAction scoped to \"AudioClip\"",
+          "passed": false,
+          "evidence": "no match for /registerContextMenuAction/; matched /[\"\\']AudioClip[\"\\']/: '\"AudioClip\"'"
+        },
+        {
+          "text": "Resolves the clicked clip with getObjectFromHandle",
+          "passed": false,
+          "evidence": "no match for /getObjectFromHandle/"
+        },
+        {
+          "text": "Sets warp mode via the warpMode property (assignment, not a .set() method)",
+          "passed": false,
+          "evidence": "no match for /\\.warpMode\\s*=/; found hallucinated API: ['\\\\.warpMode\\\\.set\\\\(']"
+        },
+        {
+          "text": "Cycles via an explicit ordered WarpMode array (no modulo on the raw non-contiguous enum)",
+          "passed": true,
+          "evidence": "matched /(WarpMode\\.\\w+[\\s\\S]*){4,}/: 'WarpMode.Beats,\\n  WarpMode.Tones,\\n  WarpMode.Texture,\\n  WarpMode.Repitch,\\n  Warp'; none of ['warpMode\\\\s*\\\\+\\\\s*1\\\\s*\\\\)?\\\\s*%'] present"
+        },
+        {
+          "text": "Avoids a hallucinated class API (no extends Extension / onLoad / contextMenu.register / createExtension)",
+          "passed": false,
+          "evidence": "found hallucinated API: ['extends Extension', '\\\\bonLoad\\\\b', 'contextMenu\\\\.register']"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 7,
+        "total": 7,
+        "time_seconds": 22.6,
+        "tokens": 11766,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+          "passed": false,
+          "evidence": "no match for /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/; matched /\\bactivate\\b/: 'activate'"
+        },
+        {
+          "text": "Registers context-menu action scoped to \"ClipSlot\"",
+          "passed": false,
+          "evidence": "no match for /registerContextMenuAction/; no match for /[\"\\']ClipSlot[\"\\']/"
+        },
+        {
+          "text": "Resolves the clip slot with getObjectFromHandle(..., ClipSlot)",
+          "passed": false,
+          "evidence": "no match for /getObjectFromHandle/; matched /ClipSlot/: 'ClipSlot'"
+        },
+        {
+          "text": "Writes the download into context.environment.tempDirectory (sandbox), not an arbitrary path",
+          "passed": false,
+          "evidence": "no match for /environment\\.(temp|storage)Directory/"
+        },
+        {
+          "text": "Imports via context.resources.importIntoProject(...) before creating the clip",
+          "passed": false,
+          "evidence": "no match for /importIntoProject/"
+        },
+        {
+          "text": "Creates the clip with clipSlot.createAudioClip({ filePath, isWarped: false })",
+          "passed": false,
+          "evidence": "no match for /createAudioClip/; no match for /isWarped/"
+        },
+        {
+          "text": "Avoids hallucinated FS / clip API (no context.filesystem, importAudioFile, or .addAction)",
+          "passed": false,
+          "evidence": "found hallucinated API: ['\\\\.filesystem\\\\b', 'importAudioFile', '\\\\.addAction\\\\b']"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 6,
+        "total": 6,
+        "time_seconds": 38.2,
+        "tokens": 11824,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+          "passed": false,
+          "evidence": "no match for /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/; no match for /\\bactivate\\b/"
+        },
+        {
+          "text": "Registers context-menu action scoped to \"MidiTrack.ArrangementSelection\"",
+          "passed": false,
+          "evidence": "no match for /registerContextMenuAction/; no match for /MidiTrack\\.ArrangementSelection/"
+        },
+        {
+          "text": "Reads ArrangementSelection fields (time_selection_start/end, selected_lanes)",
+          "passed": false,
+          "evidence": "no match for /time_selection_start/; no match for /selected_lanes/"
+        },
+        {
+          "text": "Resolves lanes with getObjectFromHandle and narrows with instanceof",
+          "passed": false,
+          "evidence": "no match for /getObjectFromHandle/; no match for /instanceof/"
+        },
+        {
+          "text": "Creates clips with positional createMidiClip(startTime, duration) \u2014 not an object arg",
+          "passed": false,
+          "evidence": "matched /createMidiClip/: 'createMidiClip'; found hallucinated API: ['createMidiClip\\\\(\\\\s*\\\\{']"
+        },
+        {
+          "text": "Single undo step via withinTransaction(() => Promise.all(...)) \u2014 no beginUndoStep/manual undo",
+          "passed": false,
+          "evidence": "no match for /withinTransaction/; no match for /Promise\\.all/; found hallucinated API: ['beginUndoStep', 'endUndoStep']"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 45.5333,
+        "stddev": 11.3421,
+        "min": 33.3,
+        "max": 55.7
+      },
+      "tokens": {
+        "mean": 24698.3,
+        "stddev": 2320.8,
+        "min": 21417,
+        "max": 26401
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.0556,
+        "stddev": 0.0962,
+        "min": 0.0,
+        "max": 0.1667
+      },
+      "time_seconds": {
+        "mean": 25.9,
+        "stddev": 11.0268,
+        "min": 16.9,
+        "max": 38.2
+      },
+      "tokens": {
+        "mean": 11806.7,
+        "stddev": 28.9,
+        "min": 11766,
+        "max": 11830
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.94",
+      "time_seconds": "+19.6",
+      "tokens": "+12891"
+    }
+  },
+  "notes": [
+    "Decisive separation: with-skill passes 19/19 SDK-usage assertions (100%); baseline passes 1/19 (5.6%). Every API-shape assertion discriminates perfectly.",
+    "The single assertion the baseline passes (warp-cycle: explicit WarpMode array) is the least discriminating \u2014 the baseline happened to list the modes, but still wrapped them in a fully hallucinated class API.",
+    "Baseline failures are systematic API hallucination: extends Extension / createExtension, context.filesystem.write, clipSlot.importAudioFile, song.beginUndoStep, clip.warpMode.set(). None exist in the real SDK \u2014 expected, since this SDK is a private beta absent from training data, which is exactly when a reference skill pays off.",
+    "Cost of the skill: ~+20s and ~+13k tokens per task (reading SKILL.md + references). A reasonable price for moving from non-compiling code to correct, idiomatic code.",
+    "Grading is static: outputs were checked with regex assertions for correct SDK API usage and the specific gotchas the skill targets (non-contiguous WarpMode, importIntoProject-first, async withinTransaction) \u2014 not compiled or run inside Live.",
+    "Single run per cell. The with-skill cell is saturated at 100%; additional runs would mainly probe baseline variance, and baseline failures are systematic rather than flaky."
+  ]
+}

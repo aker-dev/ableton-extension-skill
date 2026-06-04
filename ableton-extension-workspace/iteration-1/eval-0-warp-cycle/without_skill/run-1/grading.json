@@ -1,0 +1,44 @@
+{
+  "expectations": [
+    {
+      "text": "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+      "passed": false,
+      "evidence": "no match for /initialize\\(\\s*\\w+\\s*,\\s*[\"\\']1\\.0\\.0[\"\\']/; no match for /\\bactivate\\b/"
+    },
+    {
+      "text": "Registers the item via context.ui.registerContextMenuAction scoped to \"AudioClip\"",
+      "passed": false,
+      "evidence": "no match for /registerContextMenuAction/; matched /[\"\\']AudioClip[\"\\']/: '\"AudioClip\"'"
+    },
+    {
+      "text": "Resolves the clicked clip with getObjectFromHandle",
+      "passed": false,
+      "evidence": "no match for /getObjectFromHandle/"
+    },
+    {
+      "text": "Sets warp mode via the warpMode property (assignment, not a .set() method)",
+      "passed": false,
+      "evidence": "no match for /\\.warpMode\\s*=/; found hallucinated API: ['\\\\.warpMode\\\\.set\\\\(']"
+    },
+    {
+      "text": "Cycles via an explicit ordered WarpMode array (no modulo on the raw non-contiguous enum)",
+      "passed": true,
+      "evidence": "matched /(WarpMode\\.\\w+[\\s\\S]*){4,}/: 'WarpMode.Beats,\\n  WarpMode.Tones,\\n  WarpMode.Texture,\\n  WarpMode.Repitch,\\n  Warp'; none of ['warpMode\\\\s*\\\\+\\\\s*1\\\\s*\\\\)?\\\\s*%'] present"
+    },
+    {
+      "text": "Avoids a hallucinated class API (no extends Extension / onLoad / contextMenu.register / createExtension)",
+      "passed": false,
+      "evidence": "found hallucinated API: ['extends Extension', '\\\\bonLoad\\\\b', 'contextMenu\\\\.register']"
+    }
+  ],
+  "summary": {
+    "passed": 1,
+    "failed": 5,
+    "total": 6,
+    "pass_rate": 0.1667
+  },
+  "timing": {
+    "total_duration_seconds": 16.9,
+    "total_tokens": 11830
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "eval_id": 0,
+  "eval_name": "warp-cycle",
+  "prompt": "I'm working on an Ableton Live extension (TypeScript, using @ableton-extensions/sdk). Add a feature: when I right-click an audio clip in Live, there should be a menu item \"Cycle Warp Mode\" that switches the clip's warp mode to the next available mode each time I click it, wrapping back to the first after the last. Write me the complete src/extension.ts.",
+  "assertions": [
+    "Entry point: exports activate and calls initialize(activation, \"1.0.0\")",
+    "Registers the item via context.ui.registerContextMenuAction scoped to \"AudioClip\"",
+    "Resolves the clicked clip with getObjectFromHandle",
+    "Sets warp mode via the warpMode property (assignment, not a .set() method)",
+    "Cycles via an explicit ordered WarpMode array (no modulo on the raw non-contiguous enum)",
+    "Avoids a hallucinated class API (no extends Extension / onLoad / contextMenu.register / createExtension)"
+  ]
+}
