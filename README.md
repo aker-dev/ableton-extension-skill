@@ -171,6 +171,4 @@ Community project, **not affiliated with or endorsed by Ableton**. *Ableton* and
 Ableton AG. The Extensions SDK is Ableton's and is **not** included here — get it from Ableton's beta
 programme. This repo contains only documentation/skill content describing how to use that SDK.
 
-Suggested license for the skill content: **MIT** (add a `LICENSE` file of your choice).
-
 Made by [**aker-dev**](https://github.com/aker-dev) with Claude Code · tested against `@ableton-extensions/sdk@1.0.0-beta.0`.
